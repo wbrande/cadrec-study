@@ -1,11 +1,9 @@
 from utils import Utils
-import torch.nn
 import torch.nn as nn
 from utils.Utils import *
 from Model.hGCN import hGCNEncoder
 
 from Model.lightGCN import LightGCNLayer
-from utils.contrastive import random_event_mask
 
 class Encoder(nn.Module):
     def __init__(

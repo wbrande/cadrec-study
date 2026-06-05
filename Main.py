@@ -6,30 +6,13 @@ import math
 
 import torch
 import torch.optim as optim
-
-if torch.cuda.is_available():
-    import torch.cuda as T
-else:
-    import torch as T
-
 import optuna
 
 import Constants as C
 from utils import Utils, metric
-
 from utils.Dataset import Dataset as dataset
 from Model.Models import Model
 from tqdm import tqdm
-import shutil
-import os
-
-################################
-from torch.cuda.amp import autocast, GradScaler
-from utils.contrastive import info_nce_loss, info_nce_with_hard_negatives, align_uniform_loss
-from utils.Dataset import get_item_popularity_bins
-import torch.nn.functional as F
-
-# Additional code for testing.
 import random
 
 seed = 42
@@ -39,8 +22,6 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-
-################################
 
 # def train_epoch(model, user_dl, adj_matrix, pop_encoding, optimizer, opt):
 # def train_epoch(model, user_dl, adj_matrix, pop_encoding, optimizer, opt, scaler):
@@ -300,22 +281,6 @@ def train(model, teacher_model, data, optimizer, scheduler, opt):
 ################################
 
     return best_[-1][1]
-
-
-def get_user_embeddings(model, user_dl, opt):
-    """ Epoch operation in training phase. """
-
-    valid_user_embeddings = torch.zeros((C.USER_NUMBER, opt.d_model), device='cuda:0')
-
-    for batch in tqdm(user_dl, mininterval=2, desc='  - (Computing user embeddings)   ', leave=False):
-        """ prepare data """
-        user_idx, event_type, event_time, test_label = map(lambda x: x.to(opt.device), batch)
-
-        """ forward """
-        prediction, users_embeddings = model(event_type)  # X = (UY+Z) ^ Tc
-        valid_user_embeddings[user_idx] = users_embeddings
-
-    return valid_user_embeddings
 
 
 def pop_enc(in_degree, d_model):

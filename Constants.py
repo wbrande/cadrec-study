@@ -1,6 +1,5 @@
 PAD = 0
 Ks = [1, 5, 10, 20]
-print('k:', Ks)
 
 ## Change comment to use a different dataset
 DATASET = "Yelp2018"
@@ -32,11 +31,6 @@ item_dict = {
 ITEM_NUMBER = item_dict.get(DATASET)
 USER_NUMBER = user_dict.get(DATASET)
 
-
-print('Dataset:', DATASET, '#User:', USER_NUMBER, '#ITEM', ITEM_NUMBER)
-print('ABLATION: ', ABLATION)
-
-
 beta_dict = {
     'ml-1M': 0.42,  # best 0.42,  # 0.5,  # 0.8  # 3629
     'douban-book': 0.07,  # best 0.07, 0.05,
@@ -61,11 +55,4 @@ if ABLATION == 'w/oSA' and DATASET == 'Yelp2018': BETA_1 = 0.01
 if ABLATION == 'w/oSA' and DATASET == 'Yelp': BETA_1 = 0
 if ABLATION == 'w/oHgcn' and DATASET == 'Gowalla': BETA_1 = 0
 if ABLATION == 'OlyHGCN' and DATASET == 'Yelp2018': BETA_1 = 0.05
-
-print('BETA_1', BETA_1)
-
-
-
-
-
 

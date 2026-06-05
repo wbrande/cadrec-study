@@ -9,39 +9,6 @@ import os
 import time
 
 
-def read_interaction_by_trajectory(user_trajectories):
-
-    # for temporal feature
-    start_time = time.time()
-    print(start_time)
-
-    directory_path = '../data/{dataset}/'.format(dataset=C.DATASET)
-    # train_file = 'train.txt'.format(dataset=C.DATASET)
-    # train_data = open(directory_path + train_file, 'r').readlines()
-    count = 0
-
-    interaction_matrix = torch.zeros((C.USER_NUMBER, C.ITEM_NUMBER), device='cuda:0')
-    item_matrix = torch.zeros((C.ITEM_NUMBER, C.ITEM_NUMBER), device='cuda:0')
-
-    # print(interaction_matrix.size())
-    # print(item_matrix.size())
-    for uid, user_traj in enumerate(user_trajectories):
-        for lid in user_traj:
-            interaction_matrix[uid][lid] = 1
-        count += 1
-        if count % 10000 == 0:
-            print(count, time.time()-start_time)
-
-    for i in range(C.USER_NUMBER):
-        nwhere = torch.where(interaction_matrix[i]==1)[0]
-        for j in nwhere:
-            item_matrix[j][nwhere] = 1
-
-    # print(nwhere)
-    # print(item_matrix)
-    np.save(directory_path + 'item_matrix.npy', item_matrix.cpu().numpy())
-
-
 def read_interaction(train_data=None, directory_path=None):
 
     # for temporal feature
@@ -78,16 +45,3 @@ def read_interaction(train_data=None, directory_path=None):
     # print(nwhere)
     # print(ITEM_matrix)
     np.save(directory_path + 'item_matrix.npy', item_matrix.cpu().numpy())
-
-
-
-
-# def main():
-#     read_interaction()
-#
-#
-# if __name__ == '__main__':
-#     main()
-
-
-

@@ -2,8 +2,6 @@ import torch
 import Constants as C
 import torch.nn.functional as F
 
-import math
-
 
 def get_non_pad_mask(seq):
     """ Get the non-padding positions. """
@@ -59,9 +57,6 @@ def l2_reg_loss(reg, model, event_type):
 
     return emb_loss / len(event_type)
 
-
-def popularity_loss(popularity_pred, in_degree):
-    return (popularity_pred - in_degree) ** 2
 
 ################################
 # Additional Code for time-aware positional encoding

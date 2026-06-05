@@ -32,7 +32,7 @@ def precision_recall_ndcg_at_k(k, rankedlist, test_matrix):
     return float(count / k), float(count / len(test_matrix)), map, float(dcg_k / idcg_k)
 
 
-def vaild(prediction, label, top_n, pre, rec, map_, ndcg):
+def valid(prediction, label, top_n, pre, rec, map_, ndcg):
     top_ = torch.topk(prediction, top_n, -1, sorted=True)[1]
     for top, l in zip(top_, label):
         try:
@@ -57,7 +57,7 @@ def pre_rec_top(pre, rec, map_, ndcg, prediction, label, event_type):
     prediction = prediction * target_
 
     for i, topN in enumerate(C.Ks):
-        vaild(prediction, label, topN, pre[i], rec[i], map_[i], ndcg[i])
+        valid(prediction, label, topN, pre[i], rec[i], map_[i], ndcg[i])
 
 
 # def map_mrr_ndcg(rankedlist, test_matrix):
